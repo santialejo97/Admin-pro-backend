@@ -4,12 +4,25 @@ const bcrypt = require("bcryptjs");
 const { generarJwt } = require("../helpers/jwt");
 
 const getUsers = async (req = request, res = response) => {
-  const users = await Usuario.find({}, "name email role google");
-  res.status(200).json({
-    ok: true,
-    users,
-    uid: req.uid,
-  });
+  const page = parseInt(req.query.page) || 0;
+  console.log(page);
+  try {
+    const [users, total] = await Promise.all([
+      Usuario.find({}, "name email role google img").skip(page).limit(5),
+      Usuario.countDocuments(),
+    ]);
+    res.status(200).json({
+      ok: true,
+      users,
+      uid: req.uid,
+      total,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: "Surgio un error inesperado ....revisar logs",
+    });
+  }
 };
 
 const postUsers = async (req = request, res = response) => {
