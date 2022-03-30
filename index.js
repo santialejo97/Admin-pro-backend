@@ -16,6 +16,9 @@ const app = express();
 // angulaH_user , cPDkPyeNpuBN7O1Z
 dbConnection();
 
+// Directorio publico
+app.use(express.static("public"));
+
 // Cors
 app.use(cors());
 
