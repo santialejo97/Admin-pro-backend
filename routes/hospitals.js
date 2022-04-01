@@ -23,8 +23,16 @@ routerHospitals.post(
   ],
   postHospital
 );
-routerHospitals.put("/update:id", [], putHospital);
-routerHospitals.delete("/delete:id", [], deleteHospital);
+routerHospitals.put(
+  "/update:id",
+  [
+    validarJwt,
+    check("name", "El nombre es obligatorio").not().isEmpty(),
+    validarCampos,
+  ],
+  putHospital
+);
+routerHospitals.delete("/delete:id", [validarJwt], deleteHospital);
 
 module.exports = {
   routerHospitals,

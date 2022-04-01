@@ -81,7 +81,38 @@ const authUserGoogle = async (req = request, res = response) => {
   }
 };
 
+const renewToken = async (req = request, res = response) => {
+  const uid = req.uid;
+
+  console.log(uid);
+
+  try {
+    const userDB = await Usuario.findById(uid);
+    if (!userDB) {
+      return res.status(401).json({
+        ok: false,
+        msg: "El usuario no existe ",
+      });
+    }
+
+    // TODO: Generar Token
+    const token = await generarJwt(uid, userDB.name);
+
+    res.status(200).json({
+      ok: true,
+      token,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: "Error inesperado validar logs ",
+    });
+    throw Error(error);
+  }
+};
+
 module.exports = {
   authUser,
   authUserGoogle,
+  renewToken,
 };

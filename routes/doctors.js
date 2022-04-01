@@ -24,8 +24,17 @@ routerDoctor.post(
   ],
   postDoctor
 );
-routerDoctor.put("/update:id", [], putDoctor);
-routerDoctor.delete("/delete:id", [], deleteDoctor);
+routerDoctor.put(
+  "/update:id",
+  [
+    validarJwt,
+    check("name", "El nombre es obligatorio del Medico").not().isEmpty(),
+    check("hospital", "El hospital es obligatorio").isMongoId(),
+    validarCampos,
+  ],
+  putDoctor
+);
+routerDoctor.delete("/delete:id", [validarJwt], deleteDoctor);
 
 module.exports = {
   routerDoctor,

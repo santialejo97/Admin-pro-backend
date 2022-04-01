@@ -1,8 +1,13 @@
 // /api/login
 const { Router } = require("express");
-const { authUser, authUserGoogle } = require("../controllers/auth_controller");
+const {
+  authUser,
+  authUserGoogle,
+  renewToken,
+} = require("../controllers/auth_controller");
 const { validarCampos } = require("../middlewares/valida_campos");
 const { check } = require("express-validator");
+const { validarJwt } = require("../middlewares/validar_token");
 
 const routerAuth = Router();
 
@@ -16,6 +21,7 @@ routerAuth.post(
   ],
   authUser
 );
+
 routerAuth.post(
   "/google",
   [
@@ -24,6 +30,8 @@ routerAuth.post(
   ],
   authUserGoogle
 );
+
+routerAuth.post("/renew", [validarJwt], renewToken);
 
 module.exports = {
   routerAuth,

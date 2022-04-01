@@ -19,7 +19,7 @@ const validarJwt = (req = request, res = response, next) => {
   } catch (error) {
     res.status(500).json({
       ok: false,
-      msg: "Sucedio un error inesperado",
+      msg: "Sucedio un error inesperado token expirado",
     });
   }
 
