@@ -107,9 +107,39 @@ const deleteDoctor = async (req = request, res = response) => {
   }
 };
 
+const getMedico = async (req = request, res = response) => {
+  const id = req.params.id;
+
+  try {
+    const medico = await Medico.findById(id)
+      .populate("user", "name img")
+      .populate("hospital", "name img");
+
+    if (!medico) {
+      return res.status(401).json({
+        ok: false,
+        msg: "NO se encontro un medico con ese id",
+      });
+    }
+
+    res.status(200).json({
+      ok: true,
+      medico,
+      msg: "Medico encontrado",
+    });
+  } catch (error) {
+    throw Error(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Sucedio un error inesperado ... revisar logs",
+    });
+  }
+};
+
 module.exports = {
   getDoctor,
   postDoctor,
   putDoctor,
   deleteDoctor,
+  getMedico,
 };

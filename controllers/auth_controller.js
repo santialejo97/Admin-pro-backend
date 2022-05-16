@@ -88,6 +88,7 @@ const renewToken = async (req = request, res = response) => {
 
   try {
     const userDB = await Usuario.findById(uid);
+
     if (!userDB) {
       return res.status(401).json({
         ok: false,
@@ -101,6 +102,7 @@ const renewToken = async (req = request, res = response) => {
     res.status(200).json({
       ok: true,
       token,
+      user: userDB,
     });
   } catch (error) {
     res.status(500).json({

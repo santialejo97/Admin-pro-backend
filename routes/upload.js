@@ -12,7 +12,7 @@ const routerUpload = Router();
 routerUpload.use(fileUpload());
 
 routerUpload.put("/:model/:id", [validarJwt], putUploadColeccion);
-routerUpload.get("/:model/:img", [validarJwt], getUploadColeccion);
+routerUpload.get("/:model/:img", getUploadColeccion);
 
 module.exports = {
   routerUpload,

@@ -31,7 +31,7 @@ routerAuth.post(
   authUserGoogle
 );
 
-routerAuth.post("/renew", [validarJwt], renewToken);
+routerAuth.get("/renew", [validarJwt], renewToken);
 
 module.exports = {
   routerAuth,
