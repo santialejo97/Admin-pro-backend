@@ -3,6 +3,7 @@ const { request, response } = require("express");
 const bcrypt = require("bcryptjs");
 const { generarJwt } = require("../helpers/jwt");
 const { googleVerify } = require("../helpers/google_verify");
+const { getMenuFrontend } = require("../helpers/menu_frontend");
 
 const authUser = async (req = request, res = response) => {
   const { email, password } = req.body;
@@ -31,6 +32,7 @@ const authUser = async (req = request, res = response) => {
       ok: true,
       msg: "Usuario valido Ingresando...",
       token,
+      menu: getMenuFrontend(userDB.role),
     });
   } catch (error) {
     res.status(500).json({
@@ -71,6 +73,7 @@ const authUserGoogle = async (req = request, res = response) => {
       ok: true,
       msg: "Usuario valido Ingresando...",
       tokenBack,
+      menu: getMenuFrontend(userDB.role),
     });
   } catch (error) {
     res.status(500).json({
@@ -103,6 +106,7 @@ const renewToken = async (req = request, res = response) => {
       ok: true,
       token,
       user: userDB,
+      menu: getMenuFrontend(userDB.role),
     });
   } catch (error) {
     res.status(500).json({
